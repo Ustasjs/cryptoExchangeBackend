@@ -4,7 +4,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
 const User = mongoose.model("user");
 const ExtractJwt = passportJWT.ExtractJwt;
-const Strategy = passportJWT.Strategy;
+const JwtStrategy = passportJWT.Strategy;
 
 const params = {
   secretOrKey: process.env.SEKRET_KEY,
@@ -43,7 +43,7 @@ passport.use(
   )
 );
 
-var strategy = new Strategy(params, function(payload, done) {
+var strategy = new JwtStrategy(params, function(payload, done) {
   User.find({ id: payload.id })
     .then(user => {
       if (user) {
