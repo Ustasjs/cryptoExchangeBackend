@@ -1,12 +1,19 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+require("module-alias/register");
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const passport = require("passport");
 
-var indexRouter = require("./routes/index");
 require("dotenv").config();
-var app = express();
+
+const app = express();
+require("./models/db");
+
+const indexRouter = require("./routes");
+const userTokenRouter = require("./routes/user_token");
+const usersRouter = require("./routes/users");
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -18,7 +25,33 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+require("./config/passport-config");
+app.use(passport.initialize({ userProperty: "payload" }));
+
+// cors
+if (app.get("env") === "development") {
+  app.use(function(req, res, next) {
+    const allowedOrigins = [process.env.CLIENT_URL];
+    const origin = req.headers.origin;
+    if (allowedOrigins.indexOf(origin) > -1) {
+      res.setHeader("Access-Control-Allow-Origin", origin);
+    }
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    res.header(
+      "Access-Control-Allow-Methods",
+      "GET, POST, OPTIONS, PUT, DELETE"
+    );
+    next();
+  });
+}
+
 app.use("/", indexRouter);
+app.use("/users", usersRouter);
+app.use("/user_token", userTokenRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
