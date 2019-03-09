@@ -8,6 +8,20 @@ const UserSchema = new Schema({
     type: String,
     required: [true, "Укажите логин"]
   },
+  wallet: {
+    usd: {
+      type: Number,
+      required: [true, "Укажите сумму в usd"]
+    },
+    btc: {
+      type: Number,
+      required: [true, "Укажите сумму в btc"]
+    },
+    eth: {
+      type: Number,
+      required: [true, "Укажите сумму в eth"]
+    }
+  },
   hash: String
 });
 
