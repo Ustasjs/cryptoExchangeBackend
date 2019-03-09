@@ -5,6 +5,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const passport = require("passport");
+const cors = require("cors");
 
 require("dotenv").config();
 
@@ -12,7 +13,7 @@ const app = express();
 require("./models/db");
 
 const indexRouter = require("./routes");
-const userTokenRouter = require("./routes/user_token");
+const userTokenRouter = require("./routes/userToken");
 const usersRouter = require("./routes/users");
 
 // view engine setup
@@ -25,29 +26,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-require("./config/passport-config");
+require("./config/passportConfig");
 app.use(passport.initialize({ userProperty: "payload" }));
 
-// cors
-if (app.get("env") === "development") {
-  app.use(function(req, res, next) {
-    const allowedOrigins = [process.env.CLIENT_URL];
-    const origin = req.headers.origin;
-    if (allowedOrigins.indexOf(origin) > -1) {
-      res.setHeader("Access-Control-Allow-Origin", origin);
-    }
-    res.header("Access-Control-Allow-Credentials", "true");
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    res.header(
-      "Access-Control-Allow-Methods",
-      "GET, POST, OPTIONS, PUT, DELETE"
-    );
-    next();
-  });
-}
+app.use(cors());
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
@@ -64,7 +46,6 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
-
   // render the error page
   res.status(err.status || 500);
   res.render("error");
