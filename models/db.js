@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const config = require("../config");
 mongoose.Promise = global.Promise;
 require("./user");
+require("./currencies");
 
 const mongodbUri = `mongodb://${config.db.user}:${config.db.password}@${
   config.db.host

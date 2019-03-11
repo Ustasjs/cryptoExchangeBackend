@@ -7,6 +7,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.5",
@@ -23,6 +24,7 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "pug": "^2.0.3",
+    "ramda": "^0.26.1",
     "validate.js": "^0.12.0"
   },
   "devDependencies": {
@@ -32,6 +34,7 @@
     "nodemon": "^1.18.10"
   },
   "_moduleAliases": {
-    "@helpers": "helpers"
+    "@helpers": "helpers",
+    "@api": "api"
   }
 }

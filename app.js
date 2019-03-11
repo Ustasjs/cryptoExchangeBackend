@@ -15,6 +15,7 @@ require("./models/db");
 const indexRouter = require("./routes");
 const userTokenRouter = require("./routes/userToken");
 const usersRouter = require("./routes/users");
+const candlesRouter = require("./routes/candles");
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -34,11 +35,17 @@ app.use(cors());
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/user_token", userTokenRouter);
+app.use("/candles", candlesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+const LoadCurrenciesController = require("./controllers/currencies");
+const loadCurrenciesController = new LoadCurrenciesController(60000);
+
+loadCurrenciesController.init();
 
 // error handler
 /* eslint-disable-next-line no-unused-vars */
