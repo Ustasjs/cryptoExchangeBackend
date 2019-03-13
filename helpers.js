@@ -13,3 +13,8 @@ module.exports.currenciesSymbols = {
   BTC: "BTC",
   ETH: "ETH"
 };
+
+module.exports.offsetUnitMilliseconds = {
+  h: 60 * 60 * 1000,
+  d: 24 * 60 * 60 * 1000
+};

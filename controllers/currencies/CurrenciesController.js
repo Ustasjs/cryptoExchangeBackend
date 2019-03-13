@@ -1,5 +1,6 @@
-const api = require("@api");
 const R = require("ramda");
+const api = require("@api");
+const helpers = require("@helpers");
 
 module.exports = class CurrenciesController {
   constructor(Shema) {
@@ -55,7 +56,15 @@ module.exports = class CurrenciesController {
         .then(() => {
           this.isSaved = true;
         })
-        .catch(error => console.log("error", error));
+        .catch(error => console.log("error during saving", error));
     }
+  }
+
+  clearExtraData() {
+    const dataSavingPeriod = helpers.offsetUnitMilliseconds.d * 7;
+    const offsetForSearch = Date.now() - dataSavingPeriod;
+    this.Shema.deleteMany({ mts: { $lt: offsetForSearch } }).catch(error =>
+      console.log("error during deleting", error)
+    );
   }
 };

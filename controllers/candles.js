@@ -1,11 +1,6 @@
-const currenciesSymbols = require("@helpers").currenciesSymbols;
+const helpers = require("@helpers");
 const mongoose = require("mongoose");
 const R = require("ramda");
-
-const offsetUnitMilliSeconds = {
-  h: 60 * 60 * 1000,
-  d: 24 * 60 * 60 * 1000
-};
 
 const step = 100;
 
@@ -25,7 +20,7 @@ const formatCandlesData = data =>
 
 module.exports.getCandles = (req, res, next) => {
   const { symbol, offset } = req.query;
-  if (!symbol || !currenciesSymbols[symbol.toUpperCase()]) {
+  if (!symbol || !helpers.currenciesSymbols[symbol.toUpperCase()]) {
     res.status(400).json({ result: "error", message: "incorrect symbol" });
     return;
   }
@@ -34,7 +29,8 @@ module.exports.getCandles = (req, res, next) => {
     return;
   }
   const [offsetValue, offsetUnit] = offset.split("");
-  const millisecondsOffset = offsetUnitMilliSeconds[offsetUnit] * offsetValue;
+  const millisecondsOffset =
+    helpers.offsetUnitMilliseconds[offsetUnit] * offsetValue;
   const resultOffsetForSearch = Date.now() - millisecondsOffset;
   const CurrencyModel = mongoose.model(symbol.toUpperCase());
   CurrencyModel.find({ mts: { $gte: resultOffsetForSearch } })

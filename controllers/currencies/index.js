@@ -7,13 +7,15 @@ const EthSchema = mongoose.model(currenciesSymbols.ETH);
 class LoadCurrenciesController {
   constructor(interval) {
     this.interval = interval;
-    this.intervalId = null;
+    this.saveIntervalId = null;
+    this.deleteIntervalId = null;
   }
 
   init() {
     this.loadCurrencies();
     process.on("SIGINT", function() {
-      clearInterval(this.intervalId);
+      clearInterval(this.saveIntervalId);
+      clearInterval(this.deleteIntervalId);
     });
   }
 
@@ -22,9 +24,13 @@ class LoadCurrenciesController {
     const EthController = new CurrenciesController(EthSchema);
     const controllersArray = [BtcController, EthController];
 
-    this.interval = setInterval(() => {
+    this.saveIntervalId = setInterval(() => {
       controllersArray.forEach(controller => controller.getCurrencyData());
     }, this.interval);
+
+    this.deleteIntervalId = setInterval(() => {
+      controllersArray.forEach(controller => controller.clearExtraData());
+    }, 20000);
   }
 }
 
