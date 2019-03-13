@@ -33,7 +33,7 @@ module.exports.registration = (req, res, next) => {
   } = req;
   const errors = validate(req.body, constraints);
   if (errors) {
-    res.status(400).json({ message: errors });
+    res.status(400).json({ result: "error", message: errors });
   } else {
     User.findOne({ email })
       .then(user => {
