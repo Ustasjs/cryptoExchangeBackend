@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - "stable"
+
+script:
+  - npm lint
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: $heroku
+  strategy: git
+  app:
+    master: crypto-exchange-backend
