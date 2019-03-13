@@ -17,6 +17,7 @@ const userTokenRouter = require("./routes/userToken");
 const usersRouter = require("./routes/users");
 const candlesRouter = require("./routes/candles");
 
+app.disable("etag");
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");

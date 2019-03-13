@@ -32,7 +32,7 @@ module.exports = class CurrenciesController {
       const average = (high + low) / 2;
 
       return {
-        mts: time,
+        mts: time * 1000,
         high: high,
         low: low,
         sell: average,
@@ -42,7 +42,7 @@ module.exports = class CurrenciesController {
     return R.compose(
       R.map(mapData),
       R.filter(element => {
-        return element.time > lastTime;
+        return element.time * 1000 > lastTime;
       })
     )(data);
   }
@@ -51,7 +51,6 @@ module.exports = class CurrenciesController {
     const resultData = responce.data.Data;
     if (!R.isEmpty(resultData)) {
       const formattedData = this.formatData(resultData, lastTime);
-      console.log("formattedData", formattedData.length);
       this.Shema.create(formattedData)
         .then(() => {
           this.isSaved = true;
