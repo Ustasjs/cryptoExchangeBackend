@@ -2,29 +2,25 @@ const R = require("ramda");
 const api = require("@api");
 const helpers = require("@helpers");
 
+/* eslint-disable no-console */
 module.exports = class CurrenciesController {
   constructor(Shema) {
     this.isSaved = true;
     this.Shema = Shema;
   }
 
-  getLatestRecord() {
-    return this.Shema.findOne()
-      .sort({ mts: -1 })
-      .limit(1);
-  }
-
   getCurrencyData() {
     if (this.isSaved) {
       this.isSaved = false;
-      this.getLatestRecord()
+      helpers
+        .getLatestRecord(this.Shema)
         .then(latestRecord => {
           const lastTime = latestRecord ? latestRecord.mts : 0;
           api
             .fetchData(this.Shema.getCurrency(), "USD", 2000)
             .then(data => this.saveData(data, lastTime));
         })
-        .catch(e => console.log("error", e));
+        .catch(e => console.log("error during fetching", e));
     }
   }
 

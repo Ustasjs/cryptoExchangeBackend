@@ -16,6 +16,7 @@ const indexRouter = require("./routes");
 const userTokenRouter = require("./routes/userToken");
 const usersRouter = require("./routes/users");
 const candlesRouter = require("./routes/candles");
+const stockRouter = require("./routes/stock");
 
 app.disable("etag");
 // view engine setup
@@ -37,6 +38,7 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/user_token", userTokenRouter);
 app.use("/candles", candlesRouter);
+app.use("/stock", stockRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

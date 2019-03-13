@@ -33,7 +33,13 @@ module.exports.getCandles = (req, res, next) => {
     helpers.offsetUnitMilliseconds[offsetUnit] * offsetValue;
   const resultOffsetForSearch = Date.now() - millisecondsOffset;
   const CurrencyModel = mongoose.model(symbol.toUpperCase());
-  CurrencyModel.find({ mts: { $gte: resultOffsetForSearch } })
+  CurrencyModel.find(
+    { mts: { $gte: resultOffsetForSearch } },
+    ["high", "low", "mts", "purchase", "sell"],
+    {
+      sort: { mts: -1 }
+    }
+  )
     .then(data => {
       const dataLength = data.length;
       const result = dataLength > step ? formatCandlesData(data) : data;
