@@ -40,7 +40,7 @@ module.exports.registration = (req, res, next) => {
         if (user) {
           res.status(409).json({
             message: {
-              conflict: "User with this email already exist"
+              conflict: ["User with this email already exist"]
             }
           });
         } else {
