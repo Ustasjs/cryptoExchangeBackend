@@ -1,8 +1,27 @@
-# Run app
+## Бэкенд для криптобиржи
+
+Данный репозиторий - это приложение, единственная цель которого - служить полем для моих экспериментов с технологиями, которые мне интересны.
+
+Бекенд реализует авторизацию и аутентификацию с помощью JWT. Так же, агрегирует данные о ценах на биткоины и эфир, предоставляет статистику за разные промежутки времени и дает возможность виртуальной торговли.
+
+## Технологии
+
+- Node.js
+- express.js
+- passport.js
+- MondoDB
+- mongoose
+
+## Клиенты для данного бэкенда
+
+- [React + Redux + Saga](https://github.com/Ustasjs/cryptoExchange)
+- [Typescript + React + Redux + Saga](https://github.com/Ustasjs/cryptoExchangeTypeScript)
+
+## Run app
 
     npm i - npm run start
 
-# API Examples
+## API Examples
 
 ## Create new user:
 
