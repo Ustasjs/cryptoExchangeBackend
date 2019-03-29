@@ -13,10 +13,10 @@ module.exports.getToken = (req, res, next) => {
       if (err) {
         return next(err);
       }
-      var payload = {
+      const payload = {
         id: user.id
       };
-      var token = jwt.encode(payload, process.env.SEKRET_KEY);
+      const token = jwt.encode(payload, process.env.SEKRET_KEY);
       res.json({ jwt: token });
     });
   })(req, res, next);

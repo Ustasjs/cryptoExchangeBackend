@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const jwt = require("jwt-simple");
 const helpers = require("@helpers");
 const User = mongoose.model("user");
-var validate = require("validate.js");
+const validate = require("validate.js");
 
 const constraints = {
   email: {
@@ -54,10 +54,10 @@ module.exports.registration = (req, res, next) => {
                 if (err) {
                   return next(err);
                 }
-                var payload = {
+                const payload = {
                   id: user.id
                 };
-                var token = jwt.encode(payload, process.env.SEKRET_KEY);
+                const token = jwt.encode(payload, process.env.SEKRET_KEY);
                 res.json({ result: "created", jwt: token });
               });
             })

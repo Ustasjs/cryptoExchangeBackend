@@ -44,7 +44,7 @@ passport.use(
   )
 );
 
-var strategy = new JwtStrategy(params, function(req, payload, done) {
+const strategy = new JwtStrategy(params, function(req, payload, done) {
   User.findById(payload.id)
     .then(user => {
       if (user) {
